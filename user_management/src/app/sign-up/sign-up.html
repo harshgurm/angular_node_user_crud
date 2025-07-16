@@ -1,0 +1,44 @@
+<div class="container mt-3">
+    <form action="" [formGroup]="signUpForm" (ngSubmit)="submitSignUp()">
+        <div>
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" formControlName="username">
+            @if(signUpForm.get('username')?.touched && signUpForm.get('username')?.errors?.['required']) {
+                <div class="text-danger"> Please provide a username </div>
+            }
+
+            @if(signUpForm.get('username')?.touched && signUpForm.get('username')?.errors?.['minlength']) {
+                <div class="text-danger"> Minimum 6 characters are required</div>
+            }
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" formControlName="password">
+            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['required']) {
+                <div class="text-danger"> Please provide a password </div>
+            }
+
+            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['minlength']) {
+                <div class="text-danger"> Minimum 6 characters are required</div>
+            }
+
+            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['maxlength']) {
+                <div class="text-danger"> Maximum 12 characters are allowed</div>
+            }
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="confirm_password" formControlName="confirm_password">
+            @if(signUpForm.get('confirm_password')?.touched && signUpForm.get('confirm_password')?.errors?.['required']) {
+                <div class="text-danger"> Please provide a password </div>
+            }
+
+            @if(signUpForm.get('confirm_password')?.touched && (signUpForm.get('confirm_password')?.value != signUpForm.get('password')?.value)) {
+                <div class="text-danger"> Confirm Password doesn't match</div>
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign In</button>
+    </form>
+</div>

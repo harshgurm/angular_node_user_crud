@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
 const connection = require('./connection');
-// const cors = require('cors');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 // const verifyUser = require('./auth');
 
-// app.use(cors());
+app.use(cors());
 app.use(express.json())
 
 app.get('/customers', async (req, res) => {
@@ -139,7 +139,7 @@ app.post('/signin', async (req, res) => {
 
     try {
         const [data] = await connection.promise().query(`
-            SELECT users_id, username, password
+            SELECT user_id, username, password
             FROM ${process.env.DATABASE}.users 
             WHERE username = ? `, username);
         if (data.length > 0) {

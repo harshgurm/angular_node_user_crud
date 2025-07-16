@@ -1,0 +1,37 @@
+<div class="container mt-3">
+    <form action="" [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
+        <div>
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" formControlName="username">
+            @if(signInForm.get('username')?.touched && signInForm.get('username')?.errors?.['required']) {
+                <div class="text-danger"> Please provide a username </div>
+            }
+
+            @if(signInForm.get('username')?.touched && signInForm.get('username')?.errors?.['invalidName']) {
+                <div class="text-danger"> Please use another username</div>
+            }
+
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" formControlName="password">
+            @if(signInForm.get('password')?.touched && signInForm.get('password')?.errors?.['required']) {
+                <div class="text-danger"> Please provide a password </div>
+            }
+
+            @if(signInForm.get('password')?.touched && signInForm.get('password')?.errors?.['minlength']) {
+                <div class="text-danger"> Minimum 6 characters are required</div>
+            }
+
+            @if(signInForm.get('password')?.touched && signInForm.get('password')?.errors?.['maxlength']) {
+                <div class="text-danger"> Maximum 12 characters are allowed</div>
+            }
+
+            @if(signInForm.get('password')?.touched && signInForm.get('password')?.errors?.['weakPassword']) {
+                <div class="text-danger">Please choose a strong password</div>
+            }
+
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+    </form>
+</div>
