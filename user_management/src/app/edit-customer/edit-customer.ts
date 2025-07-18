@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomerI } from '../customer-i';
+import { CustomerI } from '../interfaces/customer-i';
 import { Customer } from '../services/customer';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';

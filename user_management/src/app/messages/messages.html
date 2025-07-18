@@ -1,0 +1,6 @@
+@if(message){
+<div @fadeInOut class="message-container" [ngClass]="'message-' + message.type">
+    <span>{{ message.text }}</span>
+    <button class="close-btn" (click)="message = null">×</button>
+</div>
+}

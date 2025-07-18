@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from '../services/login';
 import { Router } from '@angular/router';
+import { Message } from '../services/message';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,15 +19,17 @@ export class SignIn {
 
   loginService = inject(Login);
   route = inject(Router);
+  messageService = inject(Message);
 
-  submitSignIn(){
+  signIn(){
     if(this.signInForm.valid){
       this.loginService.userLogin(this.signInForm.value).subscribe({
         next: () => {
           this.route.navigate(['/customers']);
+          this.messageService.showSuccess('Login successful');
         },
         error: (error) => {
-          console.log(error);
+          this.messageService.showError(error);
         },
       });
     }

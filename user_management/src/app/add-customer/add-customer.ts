@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Customer } from '../services/customer';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CustomerI } from '../customer-i';
+import { CustomerI } from '../interfaces/customer-i';
 
 @Component({
   selector: 'app-add-customer',

@@ -1,0 +1,33 @@
+.message-container {
+  position: fixed;
+  top: 80px; /* Below the navbar */
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.message-success {
+  background-color: #28a745; /* Bootstrap success green */
+}
+
+.message-error {
+  background-color: #dc3545; /* Bootstrap danger red */
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-left: 15px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
