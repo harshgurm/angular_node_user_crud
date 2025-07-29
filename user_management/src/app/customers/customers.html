@@ -20,7 +20,7 @@
             <td>{{customer.address}}</td>
             <td>{{customer.city}}</td>
             <td>
-                <button type="button" class="btn btn-warning mx-2" [routerLink]="['/edit-customer', customer.customer_id]">Edit</button>
+                <button type="button" class="btn btn-warning mx-2" [routerLink]="['/customer-form', customer.customer_id]">Edit</button>
                 <button type="button" class="btn btn-danger mx-2" (click)="delCustomer(customer.customer_id)">Delete</button>
             </td>
         </tr>

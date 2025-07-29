@@ -16,7 +16,7 @@ export class Login {
   public isLoggedIn$: Observable<boolean> = this.loggedIn.asObservable();
 
   userLogin(data: {}) {
-    return this.http.post<{ token?: string }>('http://localhost:3000/signin/', data).pipe(
+    return this.http.post<{ token?: string, message: string }>('http://localhost:3000/signin/', data).pipe(
       tap(response => {
         if (response.token) {
           localStorage.setItem('token', response.token);
@@ -27,7 +27,7 @@ export class Login {
   }
 
   userSignUp(data:{}){
-    return this.http.post('http://localhost:3000/signup/', data);
+    return this.http.post<{ message: string }>('http://localhost:3000/signup/', data);
   }
 
   isAuthenticated(): boolean {

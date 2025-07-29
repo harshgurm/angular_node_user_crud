@@ -8,7 +8,7 @@
             }
 
             @if(signUpForm.get('username')?.touched && signUpForm.get('username')?.errors?.['minlength']) {
-                <div class="text-danger"> Minimum 6 characters are required</div>
+                <div class="text-danger"> Minimum 4 characters are required</div>
             }
         </div>
         <div class="mb-3 mt-3">
@@ -23,7 +23,20 @@
             }
 
             @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['maxlength']) {
-                <div class="text-danger"> Maximum 12 characters are allowed</div>
+                <div class="text-danger"> Maximum 14 characters are allowed</div>
+            }
+
+            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresUppercase']) {
+                <div class="text-danger"> Must contain at least one uppercase letter.</div>
+            }
+            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresLowercase']) {
+                <div class="text-danger"> Must contain at least one lowercase letter.</div>
+            }
+            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresNumeric']) {
+                <div class="text-danger"> Must contain at least one number.</div>
+            }
+            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresSpecialChar']) {
+                <div class="text-danger"> Must contain at least one special character.</div>
             }
         </div>
 
@@ -39,6 +52,7 @@
             }
         </div>
 
-        <button type="submit" class="btn btn-primary">Sign In</button>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <button routerLink="/sign-in" class="mx-3 btn btn-warning">Sign In</button>
     </form>
 </div>

@@ -3,9 +3,8 @@ import { SignIn } from './sign-in/sign-in';
 import { SignUp } from './sign-up/sign-up';
 import { Customers } from './customers/customers';
 import { PageNotFound } from './page-not-found/page-not-found';
-import { AddCustomer } from './add-customer/add-customer';
-import { EditCustomer } from './edit-customer/edit-customer';
 import { authGuard } from './auth/auth.guard';
+import { CustomerForm } from './customer-form/customer-form';
 
 export const routes: Routes = [
   {
@@ -22,13 +21,13 @@ export const routes: Routes = [
     canActivate: [authGuard] 
   },
   {
-    path: 'add-customer',
-    component: AddCustomer,
+    path: 'customer-form',
+    component: CustomerForm,
     canActivate: [authGuard] 
   },
   {
-    path: 'edit-customer/:id',
-    component: EditCustomer,
+    path: 'customer-form/:id',
+    component: CustomerForm,
     canActivate: [authGuard] 
   },
   {

@@ -1,7 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Login } from '../services/login';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { passwordStrengthValidator, passwordsMatchValidator } from '../custom-password-validation';
+import { Message } from '../services/message';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,21 +15,29 @@ export class SignUp {
 
   loginService = inject(Login);
   route = inject(Router);
+  formBuilder = inject(FormBuilder);
+  messageService = inject(Message);
 
-  signUpForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]),
-    confirm_password: new FormControl('', [Validators.required]),
-  })
+  signUpForm!: FormGroup;
+  
+  constructor() {
+    this.signUpForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20), passwordStrengthValidator()]],
+      confirm_password: ['', [Validators.required]],
+    }, { validators: passwordsMatchValidator });
+  }
 
   submitSignUp(){
-    if(this.signUpForm.value){
+    if(this.signUpForm?.valid) {
       this.loginService.userSignUp(this.signUpForm.value).subscribe({
-        next: () => {
+        next: (result) => {
           this.route.navigate(['/sign-in']);
+          this.messageService.showSuccess(result.message);
         },
         error: (error) => {
           console.log(error);
+          this.messageService.showError(error.message);
         },
       });
     }
