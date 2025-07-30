@@ -1,34 +1,37 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/"></a>
+    <a class="navbar-brand" routerLink="/">Customers</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
-      <form class="d-flex">
+        <ul class="navbar-nav me-auto">
 
         @if(isLoggedIn$ | async) {
       
-          <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <a class="nav-link" routerLink="/customers">Customer</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/customer-form">Add Customer</a>
             </li>
-          </ul>
           <button class="btn btn-secondary mx-3" (click)="logOut()" type="button">Log Out</button>
 
         } @else {
-            <a routerLink="/sign-in" class="mx-3">
-                <button class="btn btn-warning" type="button">Sign In</button>
-            </a>
-            <a routerLink="/sign-up" class="mx-3">
-                <button class="btn btn-info" type="button">Sign Up</button>
-            </a>
+            <li class="nav-item">
+              <a routerLink="/sign-in" class="mx-3">
+                  <button class="btn btn-warning" type="button">Sign In</button>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/sign-up" class="mx-3">
+                  <button class="btn btn-info" type="button">Sign Up</button>
+              </a>
+            </li>
+                        
         }
+        </ul>
 
-      </form>
     </div>
   </div>
 </nav>

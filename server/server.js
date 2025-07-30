@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const connection = require('./connection');
+const pool = require('./connection');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.get('/customers', async (req, res) => {
     try {
-        const [data] = await connection.promise().query(
+        const [data] = await pool.query(
             `SELECT * FROM ${process.env.DATABASE}.customers`);
             if(data.length > 0) return res.json(data);
             else return res.json({ message: "Customer not found" });
@@ -27,7 +27,7 @@ app.get('/customers/:id', async (req, res) => {
     if (!customer_id || isNaN(customer_id)) return res.status(400).json({ message: "Please provide a Customer ID" });
     
     try {
-        const [data] = await connection.promise().query(
+        const [data] = await pool.query(
             `SELECT * 
                 FROM ${process.env.DATABASE}.customers
                 WHERE customer_id = ?`, customer_id);
@@ -46,7 +46,7 @@ app.post('/customers/', async (req, res) => {
     if(!customer_first_name) return res.status(400).json({ message: "Customer First Name is mandatory" });
 
     try {
-        const [data] = await connection.promise().query(`
+        const [data] = await pool.query(`
             INSERT INTO  ${process.env.DATABASE}.customers (customer_first_name, customer_last_name, address, city) 
             VALUES (?, ?, ?, ?) `, [customer_first_name, customer_last_name, address, city]);
         if (data && data.affectedRows > 0) return res.status(200).json({message : "Record added successfully!!!"});
@@ -62,7 +62,7 @@ app.delete('/delete/:customer_id', async (req, res) => {
     if (!customer_id || isNaN(customer_id)) return res.status(400).json({ message: "Please provide a Customer ID" });
 
     try {
-        const [data] = await connection.promise().query(`
+        const [data] = await pool.query(`
             DELETE FROM ${process.env.DATABASE}.customers
             WHERE customer_id = ?`, customer_id); 
         if(data.affectedRows > 0 ) return res.json({message : 'Customer deleted successfully'});
@@ -83,7 +83,7 @@ app.put('/update/:customer_id', async (req, res) => {
     if(!customer_first_name) return res.status(400).json({ message: "Customer First Name is mandatory" });
 
     try {
-        const [customer] = await connection.promise().query(`SELECT * 
+        const [customer] = await pool.query(`SELECT * 
             FROM ${process.env.DATABASE}.customers 
             WHERE customer_id = ?`, customer_id);
             if(customer.length > 0) {
@@ -93,7 +93,7 @@ app.put('/update/:customer_id', async (req, res) => {
                     if(address == undefined) address = customer[cus].address;
                     if(city == undefined) city = customer[cus].city;
                 }
-                const [data] = await connection.promise().query(`
+                const [data] = await pool.query(`
                     UPDATE ${process.env.DATABASE}.customers
                     SET customer_first_name = ?, customer_last_name = ?, address = ?, city = ?
                     WHERE customer_id = ?`, [customer_first_name, customer_last_name, address, city, customer_id] )
@@ -121,11 +121,11 @@ app.post('/signup', async (req, res) => {
     const hashedPass = await bcrypt.hash(password, 10);
 
     try {
-        const [data] = await connection.promise().query(`
+        const [data] = await pool.query(`
             INSERT INTO ${process.env.DATABASE}.users (username, password, status) 
             VALUES (?, ?, ?) `, [username, hashedPass, status ]);
         if (data && data.affectedRows > 0) return res.json({ message: "User added successfully"});
-        else return res.json({ message: "Unable to add the user"});
+        else return res.status(401).json({ message: "Unable to add the user"});
     } catch (error) {
         return res.json(error);
     }
@@ -138,7 +138,7 @@ app.post('/signin', async (req, res) => {
     if(!username || !password) return res.status(401).json('Please provide all the values');
 
     try {
-        const [data] = await connection.promise().query(`
+        const [data] = await pool.query(`
             SELECT user_id, username, password
             FROM ${process.env.DATABASE}.users 
             WHERE username = ? `, username);
@@ -146,9 +146,9 @@ app.post('/signin', async (req, res) => {
             const passResult = await bcrypt.compare(password, data[0].password);
             if(passResult){
                 const token = await jwt.sign({user_id:data[0].user_id}, process.env.KEY,  { expiresIn: '1h' });
-                return res.status(200).json({'token': token});    
+                return res.status(200).json({'token': token, message: "Logged in successfully"});    
             } else {
-                return res.status(401).json({ message: 'Authentication failed!'});
+                return res.json({ message: 'Authentication failed!'});
             }
         } else {
             return res.json({ message: "Customer not found"});
