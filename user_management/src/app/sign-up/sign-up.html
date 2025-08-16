@@ -1,58 +1,78 @@
-<div class="container mt-3">
-    <form action="" [formGroup]="signUpForm" (ngSubmit)="submitSignUp()">
-        <div>
-            <label class="form-label">Username</label>
-            <input type="text" class="form-control" name="username" formControlName="username">
-            @if(signUpForm.get('username')?.touched && signUpForm.get('username')?.errors?.['required']) {
-                <div class="text-danger"> Please provide a username </div>
-            }
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 col-xl-4">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="card-title text-center mb-4 h3">Create Account</h1>
+                    <form [formGroup]="signUpForm" (ngSubmit)="submitSignUp()" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" formControlName="username"
+                                [ngClass]="{ 'is-invalid': signUpForm.get('username')?.touched && signUpForm.get('username')?.invalid }">
+                            <div class="invalid-feedback">
+                                @if(signUpForm.get('username')?.errors?.['required']) {
+                                <div>Please provide a username.</div>
+                                }
+                                @if(signUpForm.get('username')?.errors?.['minlength']) {
+                                <div>Minimum 4 characters are required.</div>
+                                }
+                            </div>
+                        </div>
 
-            @if(signUpForm.get('username')?.touched && signUpForm.get('username')?.errors?.['minlength']) {
-                <div class="text-danger"> Minimum 4 characters are required</div>
-            }
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" formControlName="password"
+                                [ngClass]="{ 'is-invalid': signUpForm.get('password')?.touched && signUpForm.get('password')?.invalid }">
+                            <div class="invalid-feedback">
+                                @if(signUpForm.get('password')?.errors?.['required']) {
+                                <div>Please provide a password.</div>
+                                }
+                                @if(signUpForm.get('password')?.errors?.['minlength']) {
+                                <div>Minimum 6 characters are required.</div>
+                                }
+                                @if(signUpForm.get('password')?.errors?.['maxlength']) {
+                                <div>Maximum 14 characters are allowed.</div>
+                                }
+                                @if(signUpForm.get('password')?.errors?.['requiresUppercase']) {
+                                <div>Must contain at least one uppercase letter.</div>
+                                }
+                                @if(signUpForm.get('password')?.errors?.['requiresLowercase']) {
+                                <div>Must contain at least one lowercase letter.</div>
+                                }
+                                @if(signUpForm.get('password')?.errors?.['requiresNumeric']) {
+                                <div>Must contain at least one number.</div>
+                                }
+                                @if(signUpForm.get('password')?.errors?.['requiresSpecialChar']) {
+                                <div>Must contain at least one special character.</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password"
+                                formControlName="confirm_password"
+                                [ngClass]="{ 'is-invalid': signUpForm.get('confirm_password')?.touched && signUpForm.get('confirm_password')?.invalid }">
+                            <div class="invalid-feedback">
+                                @if(signUpForm.get('confirm_password')?.errors?.['required']) {
+                                <div>Please confirm your password.</div>
+                                }
+                                @if(signUpForm.get('confirm_password')?.errors?.['passwordMismatch']) {
+                                <div>Passwords do not match.</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary"
+                                [disabled]="signUpForm.invalid">Register</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-4">
+                        <p class="text-muted mb-0">Already have an account? <a routerLink="/sign-in">Sign In</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3 mt-3">
-            <label for="" class="form-label">Password</label>
-            <input type="password" class="form-control" name="password" formControlName="password">
-            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['required']) {
-                <div class="text-danger"> Please provide a password </div>
-            }
-
-            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['minlength']) {
-                <div class="text-danger"> Minimum 6 characters are required</div>
-            }
-
-            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['maxlength']) {
-                <div class="text-danger"> Maximum 14 characters are allowed</div>
-            }
-
-            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresUppercase']) {
-                <div class="text-danger"> Must contain at least one uppercase letter.</div>
-            }
-            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresLowercase']) {
-                <div class="text-danger"> Must contain at least one lowercase letter.</div>
-            }
-            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresNumeric']) {
-                <div class="text-danger"> Must contain at least one number.</div>
-            }
-            @if(signUpForm.get('password')?.touched && signUpForm.get('password')?.errors?.['requiresSpecialChar']) {
-                <div class="text-danger"> Must contain at least one special character.</div>
-            }
-        </div>
-
-        <div class="mb-3 mt-3">
-            <label for="" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" name="confirm_password" formControlName="confirm_password">
-            @if(signUpForm.get('confirm_password')?.touched && signUpForm.get('confirm_password')?.errors?.['required']) {
-                <div class="text-danger"> Please provide a password </div>
-            }
-
-            @if(signUpForm.get('confirm_password')?.touched && (signUpForm.get('confirm_password')?.value != signUpForm.get('password')?.value)) {
-                <div class="text-danger"> Confirm Password doesn't match</div>
-            }
-        </div>
-
-        <button type="submit" class="btn btn-primary">Register</button>
-        <button routerLink="/sign-in" class="mx-3 btn btn-warning">Sign In</button>
-    </form>
+    </div>
 </div>

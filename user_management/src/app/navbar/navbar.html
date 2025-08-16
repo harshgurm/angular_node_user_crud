@@ -1,37 +1,27 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">Customers</a>
+    <a class="navbar-brand" routerLink="/customers" routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}">Customers</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
-        <ul class="navbar-nav me-auto">
-
-        @if(isLoggedIn$ | async) {
-      
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/customers">Customer</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/customer-form">Add Customer</a>
-            </li>
-          <button class="btn btn-secondary mx-3" (click)="logOut()" type="button">Log Out</button>
-
-        } @else {
-            <li class="nav-item">
-              <a routerLink="/sign-in" class="mx-3">
-                  <button class="btn btn-warning" type="button">Sign In</button>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a routerLink="/sign-up" class="mx-3">
-                  <button class="btn btn-info" type="button">Sign Up</button>
-              </a>
-            </li>
-                        
+      <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+        @if (isLoggedIn$ | async) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/customer-form" routerLinkActive="active">Add Customer</a>
+        </li>
         }
-        </ul>
+      </ul>
 
+      <div class="d-flex align-items-center">
+        @if (isLoggedIn$ | async) {
+        <button class="btn btn-outline-light" (click)="logOut()" type="button">Log Out</button>
+        } @else {
+        <a routerLink="/sign-in" class="btn btn-outline-light me-2" role="button">Sign In</a>
+        <a routerLink="/sign-up" class="btn btn-warning" role="button">Sign Up</a>
+        }
+      </div>
     </div>
   </div>
 </nav>

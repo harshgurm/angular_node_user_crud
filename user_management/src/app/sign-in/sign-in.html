@@ -1,22 +1,39 @@
-<div class="container mt-3">
-    <form [formGroup]="signInForm" (ngSubmit)="signIn()">
-        <div>
-            <label class="form-label">Username</label>
-            <input type="text" class="form-control" name="username" formControlName="username">
-            @if(signInForm.get('username')?.touched && signInForm.get('username')?.errors?.['required']) {
-                <div class="text-danger"> Please provide a username </div>
-            }
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 col-xl-4">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="card-title text-center mb-4 h3">Sign In</h1>
+                    <form [formGroup]="signInForm" (ngSubmit)="signIn()" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" formControlName="username"
+                                [ngClass]="{ 'is-invalid': signInForm.get('username')?.touched && signInForm.get('username')?.invalid }">
+                            @if(signInForm.get('username')?.touched && signInForm.get('username')?.errors?.['required'])
+                            {
+                            <div class="invalid-feedback"> Please provide a username. </div>
+                            }
+                        </div>
 
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" formControlName="password"
+                                [ngClass]="{ 'is-invalid': signInForm.get('password')?.touched && signInForm.get('password')?.invalid }">
+                            @if(signInForm.get('password')?.touched && signInForm.get('password')?.errors?.['required'])
+                            {
+                            <div class="invalid-feedback"> Please provide a password. </div>
+                            }
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" [disabled]="signInForm.invalid">Sign
+                                In</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-4">
+                        <p class="text-muted mb-0">Don't have an account? <a routerLink="/sign-up">Sign Up</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3 mt-3">
-            <label for="" class="form-label">Password</label>
-            <input type="password" class="form-control" name="password" formControlName="password">
-            @if(signInForm.get('password')?.touched && signInForm.get('password')?.errors?.['required']) {
-                <div class="text-danger"> Please provide a password </div>
-            }
-
-        </div>
-        <button type="submit" class="btn btn-primary">Sign In</button>
-        <button routerLink="/sign-up" class="mx-3 btn btn-warning">Sign Up</button>
-    </form>
+    </div>
 </div>
